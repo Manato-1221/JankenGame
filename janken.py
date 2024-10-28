@@ -16,7 +16,7 @@ def save_r(o):　#新しい手をdやDataに更新・保存するための手続
      te+=1*3**i
  Data[te]+=1
   
-def largest_n(a):
+def largest_n(a):　#maxと同じ。すなわち、listの中の最大値を返す。コーディングの練習のために自分で書いたもの。
   l=0
   n=0
   for i in range(len(a)):
