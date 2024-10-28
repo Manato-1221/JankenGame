@@ -1,8 +1,10 @@
 import ita
-d=ita.array.make1d(4)
-Data=ita.array.make1d(81)
+d=ita.array.make1d(4)            #dはプレイヤーが入力した直近４回のジャンケンのデータを保存している
+Data=ita.array.make1d(81)　　　　　#Dataには４つ連続した手のパターン（「グー、グー、チョキ、パー」や「パー、チョキ、チョキ、グー」など）毎にプレイヤーが出した数を集計している。
+　　　　　　　　　　　　　　　　　　　　　 #例えば、プレイヤーが左から順に「グー、チョキ、パー、チョキ、グー」と出したら「グー、チョキ、パー、チョキ」、「チョキ、バー、チョキ、グー」はそれぞれ１回ずつカウントされDataに保存されている。
+　　　　　　　　　　　　　　　　　　　　　　#この時、dには直近の「チョキ、パー、チョキ、グー」という手が保存されている。 
 
-def save_r(o):
+def save_r(o):　#新しい手をdやDataに更新・保存するための手続き
  for i in range(3):
       d[i]=d[i+1]
  d[3]=o
@@ -23,7 +25,7 @@ def largest_n(a):
     n=i
   return(n)
   
-def janken_j(a,b):
+def janken_j(a,b):　#ジャンケンのジャッジをする
  if (a,b)==('g','c') or (a,b)==('c','p') or (a,b)==('p','g'):
    return('勝ち')
  elif a==b:
@@ -32,22 +34,26 @@ def janken_j(a,b):
    return('負け') 
 
 
-def janken():
- win=0
- lose=0
- game=0
- a=0
+def janken():　＃メインプログラム
+ win=0　　#CPU側の勝利数
+ lose=0　#CPU側の敗北数
+ game=0　#試合数
+ a=0　　　#プログラム終了のフラグ
+
  print('何をしたいか入力するか、次の手をg、c、pで入力してね＞＞')
  while a==0:
    b=input()
-   if b=='end':
+  
+   if b=='end':　　#プログラムの終了
     print('プログラムを終わります。バイバイ')
     a=1
-   elif b=='g' or b=='c' or b=='p':
+
+   elif b=='g' or b=='c' or b=='p':　#試合はしないで次の手だけを入力し、更新・集計をする
     save_r(b)
     print('処理が完了しました')
     print('続けて入力が可能です。何をしたいか入力するか、次の手をg、c、pで入力してね＞＞')
-   elif b=='game':
+
+   elif b=='game':　#試合をする。過去の手のデータ（Dataやd）から確率の高い手を予測して出す。試合後、勝利数などのカウントも行う。
      print('僕の手を準備しています・・・')
      te_=0
      for i in range(1,4):
@@ -86,7 +92,8 @@ def janken():
      save_r(o)
      print('保存が完了しました。また遊んでね')
      print('続けて入力が可能です。何をしたいか入力するか、次の手をg、c、pで入力してね＞＞')
-   elif b=='result':
+
+   elif b=='result':　　　　 #これまでの試合成績を表示する。
      print('僕の戦績を表示します。')
      if game==0:
       print('まだ試合をしていませんね・・・「game」と入力すれば僕と試合が出来ますよ。')
@@ -105,7 +112,8 @@ def janken():
       else:
        print('勝率',rate,'%です。')
       print('何をしたいか入力するか、次の手をg、c、pで入力してね＞＞')
-   elif b=='rate_next':
+      
+   elif b=='rate_next':　#試合も新しい手の入力もしないで、３つの手の次の手になる確率をそれぞれ表示する。
      te_=0
      for i in range(1,4):
        if d[i]=='g':
@@ -122,7 +130,8 @@ def janken():
       print('チョキを出す確率',1/3,'%')
       print('パーを出す確率',1/3,'%')      
      print('何をしたいか入力するか、次の手をg、c、pで入力してね＞＞')    
-   else:
+
+   else:　　　　　　　#コマンドでない入力を弾く
      print('正しく入力をしないといけませんよ。正しく入力してください＞＞')
      
 janken()
